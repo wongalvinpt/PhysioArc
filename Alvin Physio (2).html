@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alvin Wong — The Architect Physiotherapist</title>
+
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      --bg:         oklch(0.975 0.005 85);
+      --fg:         oklch(0.20 0.010 65);
+      --card:       oklch(0.985 0.004 85);
+      --border:     oklch(0.88 0.010 75);
+      --muted-fg:   oklch(0.50 0.015 65);
+      --copper:     oklch(0.65 0.120 65);
+      --teal:       oklch(0.70 0.120 175);
+      --warm-stone: oklch(0.93 0.008 75);
+      --heading-scale: 1;
+      --heading-track: -0.03em;
+      --body-lh: 1.7;
+      --section-pad: 96px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: oklch(0.65 0.12 65 / 0.35); border-radius: 3px; }
+    .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    @media (min-width: 768px) { .container { padding: 0 40px; } }
+    .annotation {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted-fg);
+    }
+    h1, h2, h3 { letter-spacing: var(--heading-track) !important; }
+    section { padding-top: var(--section-pad) !important; padding-bottom: var(--section-pad) !important; }
+    @keyframes heroSlideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes fadeUp { from { transform: translateY(24px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+    .hero-grid { grid-template-columns: 7fr 5fr !important; }
+    @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr !important; } .hero-logo { display: none !important; } }
+    .about-grid { grid-template-columns: 5fr 7fr !important; }
+    @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr !important; } }
+    .services-grid { grid-template-columns: repeat(3, 1fr) !important; grid-auto-rows: 220px !important; }
+    @media (max-width: 900px) { .services-grid { grid-template-columns: 1fr !important; grid-auto-rows: auto !important; } .services-grid > div { grid-column: span 1 !important; grid-row: span 1 !important; min-height: 200px !important; } }
+    .process-grid { grid-template-columns: repeat(4, 1fr) !important; }
+    @media (max-width: 900px) { .process-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+    @media (max-width: 480px) { .process-grid { grid-template-columns: 1fr !important; } }
+    .testi-grid { grid-template-columns: repeat(3, 1fr) !important; }
+    @media (max-width: 900px) { .testi-grid { grid-template-columns: 1fr !important; } }
+    .booking-grid { grid-template-columns: 1fr 1fr !important; }
+    @media (max-width: 900px) { .booking-grid { grid-template-columns: 1fr !important; } }
+    .desktop-nav { display: flex !important; }
+    .mobile-nav  { display: none !important; }
+    .mobile-menu { display: flex !important; }
+    @media (max-width: 900px) { .desktop-nav { display: none !important; } .mobile-nav { display: flex !important; } }
+    .nav-link::after { content: ""; position: absolute; bottom: -3px; left: 0; width: 0; height: 1px; background: var(--copper); transition: width 0.3s; }
+    .nav-link:hover { color: var(--copper) !important; }
+    .nav-link:hover::after { width: 100%; }
+    @media (max-width: 768px) { section[style*="backgroundAttachment: fixed"], section[style*="background-attachment: fixed"] { background-attachment: scroll !important; } }
+  </style>
+</head>
+<body>
+  <template id="__bundler_thumbnail">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" fill="#23201b"/>
+      <g transform="translate(24,24) scale(0.6)" fill="none" stroke="#c9905f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M36 20 L84 20 L106 60 L84 100 L36 100 L14 60 Z"/>
+        <path d="M40 84 L60 34 L80 84" stroke-width="8"/>
+        <path d="M49 64 A13 6 0 0 0 71 64" stroke-width="6"/>
+      </g>
+    </svg>
+  </template>
+  <div id="root"></div>
+
+  <!-- Translations -->
+  <script>
+  window.TRANSLATIONS = {
+    "nav.home": { en: "Home", zh: "首頁" },
+    "nav.about": { en: "About", zh: "關於我" },
+    "nav.services": { en: "Services", zh: "服務" },
+    "nav.journey": { en: "Journey", zh: "歷程" },
+    "nav.testimonials": { en: "Testimonials", zh: "客戶評價" },
+    "nav.booking": { en: "Booking", zh: "預約" },
+    "nav.contact": { en: "Contact", zh: "聯絡" },
+    "hero.tagline": { en: "The Master Architect of Your Body", zh: "您身體的建築師" },
+    "hero.description": { en: "I don't just treat pain — I rebuild, reinforce, and refine the structural integrity of your body. Every treatment is a blueprint for lasting recovery.", zh: "我不僅僅治療疼痛 — 我重建、加固並完善您身體的結構完整性。每一次治療都是持久康復的藍圖。" },
+    "hero.cta": { en: "Start Your Project", zh: "開始您的康復計劃" },
+    "about.label": { en: "ABOUT THE ARCHITECT", zh: "關於建築師" },
+    "about.title": { en: "Building Bodies,\nRestoring Lives", zh: "重建身體，\n恢復生活" },
+    "about.p1": { en: "I'm Alvin, a Hong Kong-based physiotherapist who sees the human body as the most extraordinary piece of architecture ever created. Every joint is a hinge, every muscle a cable, every bone a load-bearing column.", zh: "我是 Alvin，一位香港物理治療師。在我眼中，人體是有史以來最非凡的建築作品。每個關節都是鉸鏈，每塊肌肉都是纜索，每根骨骼都是承重柱。" },
+    "about.p2": { en: "My philosophy is simple: the treatment is the repair, but the exercise programme is the reinforcement. I don't just fix you — I give you the blueprint to stay strong on your own.", zh: "我的理念很簡單：治療是修復，但運動計劃才是加固。我不僅僅修復您 — 我給您一份保持強壯的藍圖。" },
+    "about.philosophy": { en: "THE BLUEPRINT FOR INDEPENDENCE", zh: "獨立自主的藍圖" },
+    "about.philosophy.desc": { en: "\"True healing happens outside the clinic. Every client receives a Customised Home Exercise Blueprint to follow in their own time.\"", zh: "「真正的康復發生在診所之外。每位客戶都會收到一份量身定制的居家運動藍圖，在自己的時間裡跟隨。」" },
+    "services.label": { en: "STRUCTURAL SERVICES", zh: "結構服務" },
+    "services.title": { en: "The Architect's Toolkit", zh: "建築師的工具箱" },
+    "services.foundation.name": { en: "The Foundation", zh: "基礎工程" },
+    "services.foundation.service": { en: "Exercise Therapy", zh: "運動治療" },
+    "services.foundation.desc": { en: "Building the core strength and stability that supports the entire structure of your body.", zh: "建立支撐您整個身體結構的核心力量和穩定性。" },
+    "services.alignment.name": { en: "The Alignment", zh: "校準工程" },
+    "services.alignment.service": { en: "Acupuncture for Pain", zh: "針灸止痛" },
+    "services.alignment.desc": { en: "Precision adjustments to the internal wiring and piping — nerves and blood flow — for optimal structural function.", zh: "精準調整內部「線路」和「管道」— 神經和血液循環 — 以達到最佳結構功能。" },
+    "services.facade.name": { en: "The Facade", zh: "外觀工程" },
+    "services.facade.service": { en: "Acupuncture for Beauty", zh: "美容針灸" },
+    "services.facade.desc": { en: "Refining the external aesthetic and natural glow. Enhancing the body's outer presentation through precise needlework.", zh: "完善外在美學和自然光澤。通過精準的針法提升身體的外在表現。" },
+    "services.restoration.name": { en: "The Restoration", zh: "修復工程" },
+    "services.restoration.service": { en: "Sport Massage", zh: "運動按摩" },
+    "services.restoration.desc": { en: "Deep maintenance of the materials — muscles and fascia. Restoring elasticity and function to the body's structural fabric.", zh: "深層維護「建材」— 肌肉和筋膜。恢復身體結構組織的彈性和功能。" },
+    "services.heritage.name": { en: "The Heritage", zh: "傳承工程" },
+    "services.heritage.service": { en: "Elderly Rehabilitation", zh: "長者復康" },
+    "services.heritage.desc": { en: "Preserving and strengthening the legacy of the body. Maintaining structural integrity through the golden years.", zh: "保存和加強身體的遺產。在黃金歲月中維持結構完整性。" },
+    "services.fluiddynamics.name": { en: "The Fluid Dynamics", zh: "流體力學" },
+    "services.fluiddynamics.service": { en: "Hydrotherapy", zh: "水療" },
+    "services.fluiddynamics.desc": { en: "Using the unique properties of water to reduce structural load and enhance movement in a weightless environment.", zh: "利用水的獨特性質減少結構負荷，在無重力環境中增強運動能力。" },
+    "services.warranty.name": { en: "The Structural Warranty", zh: "結構保障" },
+    "services.warranty.service": { en: "Insurance Services", zh: "保險服務" },
+    "services.warranty.desc": { en: "Providing the financial security and peace of mind that protects your health investment. Full support beyond physiotherapy.", zh: "提供財務保障和安心感，保護您的健康投資。在物理治療之外提供全面支持。" },
+    "process.label": { en: "THE PROJECT PLAN", zh: "項目計劃" },
+    "process.title": { en: "Your Recovery Journey", zh: "您的康復旅程" },
+    "process.step1.title": { en: "Site Survey", zh: "現場勘察" },
+    "process.step1.desc": { en: "Identifying the cracks and weaknesses in the structure.", zh: "識別結構中的裂縫和弱點。" },
+    "process.step2.title": { en: "The Blueprint", zh: "藍圖設計" },
+    "process.step2.desc": { en: "Designing a custom plan for your body's unique architecture.", zh: "為您身體的獨特結構設計定制計劃。" },
+    "process.step3.title": { en: "Construction", zh: "施工建設" },
+    "process.step3.desc": { en: "Reinforcing the foundation and aligning the systems.", zh: "加固基礎並校準系統。" },
+    "process.step4.title": { en: "Handover", zh: "交付驗收" },
+    "process.step4.desc": { en: "A body that is stronger, more balanced, and built to last.", zh: "一個更強壯、更平衡、經久耐用的身體。" },
+    "journey.label": { en: "THE EVOLVING BLUEPRINT", zh: "進化的藍圖" },
+    "journey.title": { en: "The Architect's Transit Line", zh: "建築師的路線圖" },
+    "journey.subtitle": { en: "Every station represents a new structural tool mastered. The journey never stops.", zh: "每一站代表一個新掌握的結構工具。旅程永不停歇。" },
+    "journey.physio": { en: "United Kingdom Physiotherapy Degree", zh: "英國物理治療學位" },
+    "journey.physio.desc": { en: "The Core Foundation", zh: "核心基礎" },
+    "journey.ukreg": { en: "UK Registered Physiotherapist", zh: "英國註冊物理治療師" },
+    "journey.ukreg.desc": { en: "Officially licensed to practice.", zh: "正式持牌執業資格。" },
+    "journey.sport": { en: "Sport Massage", zh: "運動按摩文憑" },
+    "journey.sport.desc": { en: "High-Performance Mastery", zh: "高性能精通" },
+    "journey.acupuncture": { en: "Acupuncture", zh: "針灸文憑" },
+    "journey.acupuncture.desc": { en: "Precision in every needle. Mastering the internal flow.", zh: "每一針都精準。掌握內在流動。" },
+    "journey.ausreg": { en: "Australia Registered Physiotherapist", zh: "澳洲註冊物理治療師" },
+    "journey.ausreg.desc": { en: "Credentials that cross borders.", zh: "跨越國界的執業資格。" },
+    "journey.hkreg": { en: "Hong Kong Registered Physiotherapist", zh: "香港註冊物理治療師" },
+    "journey.hkreg.desc": { en: "Building on home ground.", zh: "紮根本地，註冊執業。" },
+    "journey.manipulation": { en: "Manipulation", zh: "手法治療" },
+    "journey.manipulation.desc": { en: "Precise realignment of the structural frame.", zh: "精準校準身體結構框架。" },
+    "journey.hydro": { en: "Hydrotherapy", zh: "水療" },
+    "journey.hydro.desc": { en: "The next frontier in fluid dynamics.", zh: "流體力學的下一個前沿。" },
+    "journey.taping": { en: "Sport Taping", zh: "運動貼紮" },
+    "journey.taping.desc": { en: "Advanced external structural support.", zh: "先進的外部結構支撐。" },
+    "testimonials.label": { en: "CLIENT PROJECTS", zh: "客戶項目" },
+    "testimonials.title": { en: "Structural Success Stories", zh: "結構成功故事" },
+    "booking.label": { en: "THE COMMAND CENTRE", zh: "指揮中心" },
+    "booking.title": { en: "Book Your\nStructural Assessment", zh: "預約您的\n結構評估" },
+    "booking.subtitle": { en: "Select a date and time that works for you. Every great project begins with a thorough site survey.", zh: "選擇適合您的日期和時間。每個偉大的項目都始於一次徹底的現場勘察。" },
+    "booking.name": { en: "Full Name", zh: "全名" },
+    "booking.email": { en: "Email Address", zh: "電子郵件" },
+    "booking.phone": { en: "Phone / WhatsApp", zh: "電話 / WhatsApp" },
+    "booking.concern": { en: "Structural Concern", zh: "結構問題" },
+    "booking.concern.placeholder": { en: "Describe your pain or concern...", zh: "描述您的疼痛或問題..." },
+    "booking.submit": { en: "Send Booking via WhatsApp", zh: "透過 WhatsApp 發送預約" },
+    "booking.confirmation": { en: "Almost done — send the message in WhatsApp", zh: "差一步——請在 WhatsApp 發送訊息" },
+    "booking.confirmation.body": { en: "We've opened WhatsApp with your booking details pre-filled. Just hit send and Alvin will confirm your slot.", zh: "我們已開啟 WhatsApp 並預先填好您的預約資料。按下發送，Alvin 將為您確認時段。" },
+    "booking.confirmation.fallback": { en: "WhatsApp didn't open?", zh: "WhatsApp 沒有開啟？" },
+    "booking.confirmation.fallback.link": { en: "Tap here to send your booking", zh: "點此發送您的預約" },
+    "contact.label": { en: "GET IN TOUCH", zh: "聯繫我們" },
+    "contact.title": { en: "Start Your Recovery Project", zh: "開始您的康復項目" },
+    "contact.whatsapp": { en: "WhatsApp", zh: "WhatsApp" },
+    "contact.instagram": { en: "Instagram", zh: "Instagram" },
+    "contact.email": { en: "Email", zh: "電子郵件" },
+    "feedback.title": { en: "Share Your Experience", zh: "分享您的體驗" },
+    "feedback.name": { en: "Your Name", zh: "您的姓名" },
+    "feedback.name.ph": { en: "Your Name", zh: "您的姓名" },
+    "feedback.email": { en: "Email", zh: "電子郵件" },
+    "feedback.email.ph": { en: "your@email.com", zh: "your@email.com" },
+    "feedback.text": { en: "Your Feedback", zh: "您的意見" },
+    "feedback.text.ph": { en: "Share your experience with Alvin's services...", zh: "分享您對 Alvin 服務的體驗..." },
+    "feedback.submit": { en: "Submit Feedback", zh: "提交意見" },
+    "feedback.thanks": { en: "Thank you for your feedback!", zh: "感謝您的意見！" },
+    "footer.tagline": { en: "Structural Integrity, Human Vitality", zh: "結構完整，人體活力" },
+    "footer.copyright": { en: "© 2025 Alvin Wong Physiotherapy", zh: "© 2024  Physio Arc 物理治療" }
+  };
+  </script>
+
+  <!-- All components inlined -->
+  <script type="text/babel">
+  // ─── TWEAKS PANEL ───────────────────────────────────────────────────────────
+  const __TWEAKS_STYLE = `
+    .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+      max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+      background:rgba(250,249,247,.78);color:#29261b;
+      -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+      border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+      box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+      font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+    .twk-hd{display:flex;align-items:center;justify-content:space-between;
+      padding:10px 8px 10px 14px;cursor:move;user-select:none}
+    .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+    .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+      width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+    .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+    .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+      overflow-y:auto;overflow-x:hidden;min-height:0;scrollbar-width:thin}
+    .twk-row{display:flex;flex-direction:column;gap:5px}
+    .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+    .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;color:rgba(41,38,27,.72)}
+    .twk-lbl>span:first-child{font-weight:500}
+    .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+      color:rgba(41,38,27,.45);padding:10px 0 0}
+    .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;background:rgba(0,0,0,.06);user-select:none}
+    .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
+      background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);transition:left .15s,width .15s}
+    .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
+      background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;
+      border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2}
+  `;
+
+  function useTweaks(defaults) {
+    const [values, setValues] = React.useState(defaults);
+    const setTweak = React.useCallback((keyOrEdits, val) => {
+      const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null ? keyOrEdits : { [keyOrEdits]: val };
+      setValues((prev) => ({ ...prev, ...edits }));
+      window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+    }, []);
+    return [values, setTweak];
+  }
+
+  function TweaksPanel({ title = 'Tweaks', children }) {
+    const [open, setOpen] = React.useState(false);
+    const dragRef = React.useRef(null);
+    const offsetRef = React.useRef({ x: 16, y: 16 });
+    React.useEffect(() => {
+      const onMsg = (e) => {
+        const t = e?.data?.type;
+        if (t === '__activate_edit_mode') setOpen(true);
+        else if (t === '__deactivate_edit_mode') setOpen(false);
+      };
+      window.addEventListener('message', onMsg);
+      window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+      return () => window.removeEventListener('message', onMsg);
+    }, []);
+    const dismiss = () => { setOpen(false); window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*'); };
+    if (!open) return null;
+    return (
+      <>
+        <style>{__TWEAKS_STYLE}</style>
+        <div ref={dragRef} className="twk-panel" style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+          <div className="twk-hd"><b>{title}</b>
+            <button className="twk-x" onClick={dismiss}>✕</button>
+          </div>
+          <div className="twk-body">{children}</div>
+        </div>
+      </>
+    );
+  }
+
+  function TweakSection({ label, children }) {
+    return <><div className="twk-sect">{label}</div>{children}</>;
+  }
+
+  function TweakRadio({ label, value, options, onChange }) {
+    const trackRef = React.useRef(null);
+    const opts = options.map(o => typeof o === 'object' ? o : { value: o, label: o });
+    const idx = Math.max(0, opts.findIndex(o => o.value === value));
+    const n = opts.length;
+    const valueRef = React.useRef(value); valueRef.current = value;
+    const segAt = (clientX) => {
+      const r = trackRef.current.getBoundingClientRect();
+      const i = Math.floor(((clientX - r.left - 2) / (r.width - 4)) * n);
+      return opts[Math.max(0, Math.min(n - 1, i))].value;
+    };
+    const onPointerDown = (e) => {
+      const v0 = segAt(e.clientX); if (v0 !== valueRef.current) onChange(v0);
+      const move = (ev) => { const v = segAt(ev.clientX); if (v !== valueRef.current) onChange(v); };
+      const up = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); };
+      window.addEventListener('pointermove', move); window.addEventListener('pointerup', up);
+    };
+    return (
+      <div className="twk-row">
+        <div className="twk-lbl"><span>{label}</span></div>
+        <div ref={trackRef} className="twk-seg" onPointerDown={onPointerDown}>
+          <div className="twk-seg-thumb" style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`, width: `calc((100% - 4px) / ${n})` }} />
+          {opts.map(o => <button key={o.value} type="button">{o.label}</button>)}
+        </div>
+      </div>
+    );
+  }
+
+  // ─── SHARED HELPERS ─────────────────────────────────────────────────────────
+  const { useState, useEffect, useRef, createContext, useContext } = React;
+  const BASE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663386524455/ftFGZnbKHQZbxzCNhVjNni/";
+  const POSTURE_BG = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNjAwIDEwMDAiIHdpZHRoPSIxNjAwIiBoZWlnaHQ9IjEwMDAiIGZvbnQtZmFtaWx5PSImIzM5O0pldEJyYWlucyBNb25vJiMzOTssIHVpLW1vbm9zcGFjZSwgbW9ub3NwYWNlIj4KICA8ZGVmcz4KICAgIDxwYXR0ZXJuIGlkPSJjLWdtaW4iIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTQwIDBIMFY0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjNhOTk0IiBzdHJva2Utd2lkdGg9IjAuNiIgb3BhY2l0eT0iMC40NSI+PC9wYXRoPjwvcGF0dGVybj4KICAgIDxwYXR0ZXJuIGlkPSJjLWdtYWoiIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNMjAwIDBIMFYyMDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2E4OWM4NiIgc3Ryb2tlLXdpZHRoPSIxIiBvcGFjaXR5PSIwLjUiPjwvcGF0aD48L3BhdHRlcm4+CiAgICA8ZmlsdGVyIGlkPSJjLXBhcGVyIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC45IiBudW1PY3RhdmVzPSIyIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIiByZXN1bHQ9Im4iPjwvZmVUdXJidWxlbmNlPjxmZUNvbG9yTWF0cml4IGluPSJuIiB0eXBlPSJtYXRyaXgiIHZhbHVlcz0iMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMC4wNiAwIj48L2ZlQ29sb3JNYXRyaXg+PC9maWx0ZXI+CiAgICA8bWFya2VyIGlkPSJjLWFyciIgbWFya2VyV2lkdGg9IjkiIG1hcmtlckhlaWdodD0iOSIgcmVmWD0iNiIgcmVmWT0iMyIgb3JpZW50PSJhdXRvIj48cGF0aCBkPSJNMCAwTDYgM0wwIDZaIiBmaWxsPSIjYjY3YzQ2Ij48L3BhdGg+PC9tYXJrZXI+CiAgPC9kZWZzPgoKICA8cmVjdCB3aWR0aD0iMTYwMCIgaGVpZ2h0PSIxMDAwIiBmaWxsPSIjZWNlNmRjIj48L3JlY3Q+CiAgPHJlY3Qgd2lkdGg9IjE2MDAiIGhlaWdodD0iMTAwMCIgZmlsbD0idXJsKCNjLWdtaW4pIj48L3JlY3Q+CiAgPHJlY3Qgd2lkdGg9IjE2MDAiIGhlaWdodD0iMTAwMCIgZmlsbD0idXJsKCNjLWdtYWopIj48L3JlY3Q+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTYwLDApIj4KCiAgCiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDEzOTJkIiBzdHJva2Utd2lkdGg9IjEiIG9wYWNpdHk9IjAuMTYiPgogICAgPHJlY3QgeD0iMzYwIiB5PSIyNTAiIHdpZHRoPSI0ODAiIGhlaWdodD0iMjk3Ij48L3JlY3Q+CiAgICA8bGluZSB4MT0iNjU3IiB5MT0iMjUwIiB4Mj0iNjU3IiB5Mj0iNTQ3Ij48L2xpbmU+PGxpbmUgeDE9IjY1NyIgeTE9IjQzMyIgeDI9Ijg0MCIgeTI9IjQzMyI+PC9saW5lPgogICAgPHBhdGggZD0iTTM2MCA1NDcgQTI5NyAyOTcgMCAwIDEgNjU3IDI1MCBBMTgzIDE4MyAwIDAgMSA4NDAgNDMzIEExMTQgMTE0IDAgMCAxIDcyNiA1NDciPjwvcGF0aD4KICA8L2c+CiAgPGcgc3Ryb2tlPSIjYjY3YzQ2IiBzdHJva2Utd2lkdGg9IjEiIG9wYWNpdHk9IjAuNCI+CiAgICA8bGluZSB4MT0iNjAwIiB5MT0iNjAiIHgyPSI2MDAiIHkyPSI5NDAiIG9wYWNpdHk9IjAuOCI+PC9saW5lPgogICAgPGxpbmUgeDE9IjEyMCIgeTE9IjEyMCIgeDI9IjkwMCIgeTI9IjkwMCI+PC9saW5lPgogIDwvZz4KCiAgCiAgPGxpbmUgeDE9IjYwMCIgeTE9IjEyMCIgeDI9IjYwMCIgeTI9Ijg2OCIgc3Ryb2tlPSIjNDEzOTJkIiBzdHJva2Utd2lkdGg9IjIuMiI+PC9saW5lPgogIDxjaXJjbGUgY3g9IjYwMCIgY3k9IjEyMCIgcj0iNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDEzOTJkIiBzdHJva2Utd2lkdGg9IjEuNiI+PC9jaXJjbGU+CiAgPHBvbHlnb24gcG9pbnRzPSI2MDAsODY4IDU5MCw4NDAgNjEwLDg0MCIgZmlsbD0iIzQxMzkyZCI+PC9wb2x5Z29uPgogIDx0ZXh0IHg9IjYxNCIgeT0iMTUwIiBmb250LXNpemU9IjEwLjUiIGxldHRlci1zcGFjaW5nPSIxIiBmaWxsPSIjOGE3ZjZjIj5QTFVNQiBMSU5FPC90ZXh0PgoKICAKICA8cGF0aCBkPSJNNjAwIDE4OCBDIDY0NCAyNTAgNjQ4IDMyMiA2MTQgMzkyIEMgNTgyIDQ1NiA1NjggNTEyIDYwMCA1ODggQyA2MzIgNjY0IDY0OCA3MjggNjAwIDgzNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjY3YzQ2IiBzdHJva2Utd2lkdGg9IjMiPjwvcGF0aD4KICA8ZyBzdHJva2U9IiM4YTdmNmMiIHN0cm9rZS13aWR0aD0iMC44IiBvcGFjaXR5PSIwLjg1Ij4KICAgIDxsaW5lIHgxPSI2MzYiIHkxPSIzMDAiIHgyPSI3MjAiIHkyPSIyODQiPjwvbGluZT4KICAgIDxsaW5lIHgxPSI1NzIiIHkxPSI0NzAiIHgyPSI3MDAiIHkyPSI0ODYiPjwvbGluZT4KICAgIDxsaW5lIHgxPSI2MzYiIHkxPSI2OTAiIHgyPSI3MjAiIHkyPSI3MDgiPjwvbGluZT4KICA8L2c+CiAgPHRleHQgeD0iNzI2IiB5PSIyODAiIGZvbnQtc2l6ZT0iMTAuNSIgbGV0dGVyLXNwYWNpbmc9IjEiIGZpbGw9IiNiNjdjNDYiPkNFUlZJQ0FMIExPUkRPU0lTPC90ZXh0PgogIDx0ZXh0IHg9IjcwNiIgeT0iNDkwIiBmb250LXNpemU9IjEwLjUiIGxldHRlci1zcGFjaW5nPSIxIiBmaWxsPSIjYjY3YzQ2Ij5USE9SQUNJQyBLWVBIT1NJUzwvdGV4dD4KICA8dGV4dCB4PSI3MjYiIHk9IjcxMiIgZm9udC1zaXplPSIxMC41IiBsZXR0ZXItc3BhY2luZz0iMSIgZmlsbD0iI2I2N2M0NiI+TFVNQkFSIExPUkRPU0lTPC90ZXh0PgoKICAKICA8ZyBmaWxsPSIjZWNlNmRjIiBzdHJva2U9IiM0MTM5MmQiIHN0cm9rZS13aWR0aD0iMS42Ij4KICAgIDxjaXJjbGUgY3g9IjYwMCIgY3k9IjIwMCIgcj0iNiI+PC9jaXJjbGU+PGNpcmNsZSBjeD0iNjAwIiBjeT0iMzMwIiByPSI2Ij48L2NpcmNsZT48Y2lyY2xlIGN4PSI2MDAiIGN5PSI1MjAiIHI9IjYiPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjYwMCIgY3k9IjY5MCIgcj0iNiI+PC9jaXJjbGU+PGNpcmNsZSBjeD0iNjAwIiBjeT0iODM2IiByPSI2Ij48L2NpcmNsZT4KICA8L2c+CiAgPGcgc3Ryb2tlPSIjNWY2Yzg1IiBzdHJva2Utd2lkdGg9IjEiIG9wYWNpdHk9IjAuOCI+CiAgICA8bGluZSB4MT0iNjAwIiB5MT0iMjAwIiB4Mj0iNDcwIiB5Mj0iMjAwIj48L2xpbmU+PGxpbmUgeDE9IjYwMCIgeTE9IjMzMCIgeDI9IjQ3MCIgeTI9IjMzMCI+PC9saW5lPgogICAgPGxpbmUgeDE9IjYwMCIgeTE9IjUyMCIgeDI9IjQ1MCIgeTI9IjUyMCI+PC9saW5lPjxsaW5lIHgxPSI2MDAiIHkxPSI2OTAiIHgyPSI0NzAiIHkyPSI2OTAiPjwvbGluZT48bGluZSB4MT0iNjAwIiB5MT0iODM2IiB4Mj0iNDcwIiB5Mj0iODM2Ij48L2xpbmU+CiAgPC9nPgogIDxnIGZvbnQtc2l6ZT0iMTAuNSIgbGV0dGVyLXNwYWNpbmc9IjEiIGZpbGw9IiM1ZjZjODUiIHRleHQtYW5jaG9yPSJlbmQiPgogICAgPHRleHQgeD0iNDYyIiB5PSIyMDQiPkVBUjwvdGV4dD4KICAgIDx0ZXh0IHg9IjQ2MiIgeT0iMzM0Ij5TSE9VTERFUjwvdGV4dD4KICAgIDx0ZXh0IHg9IjQ0MiIgeT0iNTE2Ij5ISVAgwrcgQy5PLkcuPC90ZXh0PgogICAgPHRleHQgeD0iNDYyIiB5PSI2OTQiPktORUU8L3RleHQ+CiAgICA8dGV4dCB4PSI0NjIiIHk9Ijg0MCI+QU5LTEU8L3RleHQ+CiAgPC9nPgoKICAKICA8ZyBzdHJva2U9IiNiNjdjNDYiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC44NSI+CiAgICA8Y2lyY2xlIGN4PSI2MDAiIGN5PSI1MjAiIHI9IjQ4IiBmaWxsPSJub25lIj48L2NpcmNsZT4KICAgIDxsaW5lIHgxPSI2MDAiIHkxPSI1MjAiIHgyPSI2NDgiIHkyPSI1MjAiPjwvbGluZT4KICAgIDxsaW5lIHgxPSI2MDAiIHkxPSI1MjAiIHgyPSI2NDMiIHkyPSI0OTgiIG1hcmtlci1lbmQ9InVybCgjYy1hcnIpIj48L2xpbmU+CiAgPC9nPgogIDx0ZXh0IHg9IjU2NiIgeT0iNTAwIiBmb250LXNpemU9IjEwLjUiIGxldHRlci1zcGFjaW5nPSIxIiBmaWxsPSIjYjY3YzQ2IiB0ZXh0LWFuY2hvcj0iZW5kIj5QRUxWSUMgVElMVCAxMsKwPC90ZXh0PgoKICAKICA8ZyBzdHJva2U9IiM1ZjZjODUiIHN0cm9rZS13aWR0aD0iMSI+CiAgICA8bGluZSB4MT0iMzYwIiB5MT0iOTA2IiB4Mj0iODQwIiB5Mj0iOTA2Ij48L2xpbmU+CiAgICA8bGluZSB4MT0iMzU0IiB5MT0iODk4IiB4Mj0iMzY2IiB5Mj0iOTE0Ij48L2xpbmU+PGxpbmUgeDE9IjgzNCIgeTE9Ijg5OCIgeDI9Ijg0NiIgeTI9IjkxNCI+PC9saW5lPjxsaW5lIHgxPSI2NTciIHkxPSI4OTkiIHgyPSI2NTciIHkyPSI5MTMiPjwvbGluZT4KICA8L2c+CiAgPHRleHQgeD0iNTA4IiB5PSI5MjgiIGZvbnQtc2l6ZT0iMTAuNSIgbGV0dGVyLXNwYWNpbmc9IjEiIGZpbGw9IiM1ZjZjODUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjEuMDAwPC90ZXh0PgogIDx0ZXh0IHg9Ijc0OCIgeT0iOTI4IiBmb250LXNpemU9IjEwLjUiIGxldHRlci1zcGFjaW5nPSIxIiBmaWxsPSIjNWY2Yzg1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4wLjYxODwvdGV4dD4KICA8dGV4dCB4PSI2MDAiIHk9Ijg5NCIgZm9udC1zaXplPSIxMyIgbGV0dGVyLXNwYWNpbmc9IjEuNSIgZmlsbD0iIzVmNmM4NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+z4YgPSAxLjYxOCDigJQgSURFQUwgQUxJR05NRU5UPC90ZXh0PgoKICAKICA8dGV4dCB4PSI1NiIgeT0iNzQiIGZvbnQtc2l6ZT0iMTAuNSIgbGV0dGVyLXNwYWNpbmc9IjIiIGZpbGw9IiNiNjdjNDYiPkZJRy4gMDMgLyBTUElOQUwgQ1VSVkUg4oCUIFBPU1RVUkFMIFNUVURZPC90ZXh0PgoKICA8cmVjdCB3aWR0aD0iMTYwMCIgaGVpZ2h0PSIxMDAwIiBmaWx0ZXI9InVybCgjYy1wYXBlcikiPjwvcmVjdD4KPC9nPjwvc3ZnPg==";
+
+  function useInView(margin = "0px") {
+    const ref = useRef(null);
+    const [inView, setInView] = useState(false);
+    useEffect(() => {
+      const obs = new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) { setInView(true); obs.disconnect(); }
+      }, { rootMargin: margin, threshold: 0.08 });
+      if (ref.current) obs.observe(ref.current);
+      return () => obs.disconnect();
+    }, []);
+    return [ref, inView];
+  }
+
+  function anim(inView, delay = 0, dir = "y") {
+    return {
+      opacity: inView ? 1 : 0,
+      transform: inView ? "none" : dir === "y" ? "translateY(28px)" : "translateX(-20px)",
+      transition: `opacity 0.7s ease ${delay}s, transform 0.7s ease ${delay}s`,
+    };
+  }
+
+  function SectionLabel({ t, tKey, inView, delay = 0 }) {
+    return (
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20, ...anim(inView, delay, "x") }}>
+        <span style={{ width: 32, height: 1, background: "var(--copper)", display: "inline-block" }} />
+        <span className="annotation" style={{ color: "var(--copper)" }}>{t(tKey)}</span>
+      </div>
+    );
+  }
+
+  // ─── NAV ────────────────────────────────────────────────────────────────────
+  const NAV_ITEMS = [
+    { key: "nav.about", href: "#about" },
+    { key: "nav.services", href: "#services" },
+    { key: "nav.journey", href: "#journey" },
+    { key: "nav.testimonials", href: "#testimonials" },
+    { key: "nav.booking", href: "#booking" },
+    { key: "nav.contact", href: "#contact" },
+  ];
+
+  function ScrollProgress() {
+    const [progress, setProgress] = useState(0);
+    useEffect(() => {
+      const onScroll = () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        setProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0);
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      return () => window.removeEventListener("scroll", onScroll);
+    }, []);
+    return (
+      <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 9999, height: 2, pointerEvents: "none" }}>
+        <div style={{ height: "100%", background: "var(--copper)", width: `${progress}%`, transition: "width 0.1s linear" }} />
+      </div>
+    );
+  }
+
+  function Navigation({ lang, setLang, t }) {
+    const [scrolled, setScrolled] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
+    useEffect(() => {
+      const onScroll = () => setScrolled(window.scrollY > 60);
+      window.addEventListener("scroll", onScroll, { passive: true });
+      return () => window.removeEventListener("scroll", onScroll);
+    }, []);
+    const handleNav = (e, href) => {
+      e.preventDefault(); setMobileOpen(false);
+      const el = document.querySelector(href);
+      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: "smooth" });
+    };
+    return (
+      <>
+        <ScrollProgress />
+        <header style={{
+          position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
+          transition: "background 0.4s, box-shadow 0.4s",
+          background: scrolled ? "rgba(249,247,242,0.94)" : "transparent",
+          backdropFilter: scrolled ? "blur(12px)" : "none",
+          boxShadow: scrolled ? "0 1px 0 rgba(0,0,0,0.06)" : "none",
+        }}>
+          <div className="container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
+            <a href="#" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+              style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+              <img src="uploads/physioarc-mark-37.png" alt="PhysioArc"
+                style={{ width: 34, height: 34, objectFit: "contain", flexShrink: 0, filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.18))" }} />
+              <span style={{ fontFamily: "Satoshi, Inter, sans-serif", fontWeight: 900, fontSize: 18, letterSpacing: "-0.02em", color: "var(--fg)" }}>ALVIN WONG</span>
+              <span style={{ width: 1, height: 20, background: "var(--border)", display: "inline-block" }} />
+              <span className="annotation" style={{ color: "var(--copper)" }}>PHYSIOTHERAPIST</span>
+            </a>
+            <nav style={{ display: "flex", alignItems: "center", gap: 32 }} className="desktop-nav">
+              {NAV_ITEMS.map(item => (
+                <a key={item.key} href={item.href} onClick={e => handleNav(e, item.href)}
+                  className="annotation nav-link" style={{ color: "var(--muted-fg)", textDecoration: "none", position: "relative" }}>
+                  {t(item.key)}
+                </a>
+              ))}
+              <div style={{ display: "flex", alignItems: "center", gap: 2, border: "1px solid var(--border)", borderRadius: 20, padding: "2px 3px", marginLeft: 8 }}>
+                {["en", "zh"].map(l => (
+                  <button key={l} onClick={() => setLang(l)} style={{
+                    padding: "3px 10px", borderRadius: 16, border: "none", cursor: "pointer",
+                    fontSize: 11, fontWeight: 600, transition: "all 0.25s",
+                    background: lang === l ? "var(--fg)" : "transparent",
+                    color: lang === l ? "var(--bg)" : "var(--muted-fg)",
+                  }}>{l === "en" ? "EN" : "繁"}</button>
+                ))}
+              </div>
+            </nav>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }} className="mobile-nav">
+              <div style={{ display: "flex", alignItems: "center", gap: 2, border: "1px solid var(--border)", borderRadius: 20, padding: "2px 3px" }}>
+                {["en", "zh"].map(l => (
+                  <button key={l} onClick={() => setLang(l)} style={{
+                    padding: "2px 8px", borderRadius: 14, border: "none", cursor: "pointer",
+                    fontSize: 11, fontWeight: 600, transition: "all 0.25s",
+                    background: lang === l ? "var(--fg)" : "transparent",
+                    color: lang === l ? "var(--bg)" : "var(--muted-fg)",
+                  }}>{l === "en" ? "EN" : "繁"}</button>
+                ))}
+              </div>
+              <button onClick={() => setMobileOpen(o => !o)}
+                style={{ background: "none", border: "none", cursor: "pointer", padding: 6, color: "var(--fg)", fontSize: 22, lineHeight: 1 }}>
+                {mobileOpen ? "✕" : "☰"}
+              </button>
+            </div>
+          </div>
+          <div style={{ height: 1, background: "linear-gradient(90deg, transparent, var(--copper), transparent)", opacity: scrolled ? 1 : 0, transition: "opacity 0.4s" }} />
+        </header>
+        {mobileOpen && (
+          <div style={{
+            position: "fixed", inset: 0, zIndex: 999, background: "rgba(249,247,242,0.98)",
+            backdropFilter: "blur(16px)", display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center", gap: 32,
+          }} className="mobile-menu">
+            {NAV_ITEMS.map((item, i) => (
+              <a key={item.key} href={item.href} onClick={e => handleNav(e, item.href)}
+                style={{ fontFamily: "Satoshi, Inter, sans-serif", fontWeight: 700, fontSize: 28, color: "var(--fg)", textDecoration: "none", animation: `fadeUp 0.4s ease ${i * 0.07}s both` }}>
+                {t(item.key)}
+              </a>
+            ))}
+          </div>
+        )}
+      </>
+    );
+  }
+
+  // ─── HERO ───────────────────────────────────────────────────────────────────
+  function HeroSection({ t }) {
+    return (
+      <section id="hero" style={{
+        position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", overflow: "hidden",
+        backgroundImage: `url(${POSTURE_BG})`,
+        backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "scroll",
+      }}>
+        <div style={{ position: "absolute", inset: 0, background: "rgba(237,232,224,0.75)" }} />
+        <div style={{ position: "absolute", inset: 0, opacity: 0.07, backgroundImage: "linear-gradient(rgba(0,0,0,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.06) 1px,transparent 1px)", backgroundSize: "60px 60px" }} />
+        <div className="container" style={{ position: "relative", zIndex: 1, width: "100%", paddingTop: 100, paddingBottom: 80 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 48, alignItems: "center" }} className="hero-grid">
+            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+              <div style={{ overflow: "hidden" }}>
+                <h1 style={{ fontFamily: "Satoshi, Inter, sans-serif", fontWeight: 900, fontSize: "clamp(3rem, 8vw, 6rem)", letterSpacing: "-0.03em", lineHeight: 1.0, color: "var(--fg)", margin: 0, animation: "heroSlideUp 0.8s cubic-bezier(0.22,1,0.36,1) both" }}>ALVIN WONG</h1>
+              </div>
+              <h2 style={{ fontFamily: "Satoshi, Inter, sans-serif", fontWeight: 700, fontSize: "clamp(1.25rem, 3vw, 2rem)", color: "var(--copper)", lineHeight: 1.2, margin: 0, animation: "fadeUp 0.7s ease 0.2s both" }}>{t("hero.tagline")}</h2>
+              <p style={{ color: "rgba(45,40,35,0.65)", fontSize: "clamp(0.95rem, 1.5vw, 1.1rem)", lineHeight: 1.7, maxWidth: 520, margin: 0, animation: "fadeUp 0.7s ease 0.35s both" }}>{t("hero.description")}</p>
+              <div style={{ animation: "fadeUp 0.7s ease 0.5s both" }}>
+                <a href="#booking" onClick={e => { e.preventDefault(); const el = document.querySelector("#booking"); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: "smooth" }); }}
+                  style={{ display: "inline-block", background: "var(--fg)", color: "var(--bg)", padding: "16px 36px", fontFamily: "Satoshi, Inter, sans-serif", fontWeight: 700, fontSize: 13, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none", transition: "background 0.4s" }}
+                  onMouseEnter={e => e.target.style.background = "var(--copper)"} onMouseLeave={e => e.target.style.background = "var(--fg)"}>
+                  {t("hero.cta")}
+                </a>
+              </div>
+            </div>
+            <div className="hero-logo" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 22, animation: "fadeIn 1.2s ease 0.5s both" }}>
+              <img src="uploads/physioarc-mark-37.png" alt="PhysioArc"
+                style={{ width: "100%", maxWidth: 230, height: "auto", objectFit: "contain", filter: "drop-shadow(0 8px 32px rgba(0,0,0,0.12))" }} />
+              <span style={{ fontFamily: "Satoshi, Inter, sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 4vw, 2.8rem)", letterSpacing: "-0.02em", color: "var(--fg)", lineHeight: 1 }}>Physio<span style={{ color: "var(--copper)" }}>Arc</span></span>
+            </div>
+          </div>
+          <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, animation: "fadeIn 1s ease 1.2s both" }}>
+            <span className="annotation">Scroll</span>
+            <div style={{ animation: "bounce 2s infinite" }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--copper)" strokeWidth="2"><polyline points="6 9 12 15 18 9" /></svg>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // ─── ABOUT ──────────────────────────────────────────────────────────────────
+  function AboutSection({ t }) {
+    const [ref, inView] = useInView("-80px");
+    return (
+      <section id="about" ref={ref} style={{
+        position: "relative", padding: "96px 0",
+        backgroundImage: `url(${POSTURE_BG})`,
+        backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "scroll",
+      }}>
+        <div style={{ position: "absolute", inset: 0, background: "rgba(237,232,224,0.88)" }} />
+        <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "linear-gradient(rgba(0,0,0,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.06) 1px,transparent 1px)", backgroundSize: "60px 60px" }} />
+        <div className="container" style={{ position: "relative", zIndex: 1 }}>
+          <SectionLabel t={t} tKey="about.label" inView={inView} />
+          <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 48, alignItems: "start" }} className="about-grid">
+            <div style={{ ...anim(inView, 0.2, "x") }}>
+              <div style={{ position: "relative", display: "inline-block", width: "100%" }}>
+                <div style={{ position: "absolute", top: -10, left: -10, width: 32, height: 32, borderTop: "2px solid var(--copper)", borderLeft: "2px solid var(--copper)", zIndex: 2 }} />
+                <div style={{ position: "absolute", bottom: -10, right: -10, width: 32, height: 32, borderBottom: "2px solid var(--copper)", borderRight: "2px solid var(--copper)", zIndex: 2 }} />
+                <div style={{ width: "100%", aspectRatio: "3/4", overflow: "hidden", minHeight: 260 }}>
+                  <img src="uploads/physioarc-shirt.png" alt="PhysioArc Physiotherapist"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", filter: "grayscale(10%)" }} />
+                </div>
+                <div style={{ position: "absolute", bottom: 16, left: 16, background: "rgba(249,247,242,0.92)", backdropFilter: "blur(8px)", padding: "6px 14px" }}>
+                  <span className="annotation">EST. 2024 — HONG KONG</span>
+                </div>
+              </div>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+              <h2 style={{ ...anim(inView, 0.3), fontFamily: "Satoshi, Inter, sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 4vw, 3.5rem)", letterSpacing: "-0.03em", lineHeight: 1.05, margin: 0, whiteSpace: "pre-line" }}>{t("about.title")}</h2>
+              <p style={{ ...anim(inView, 0.45), color: "var(--muted-fg)", fontSize: "clamp(0.9rem, 1.3vw, 1.05rem)", lineHeight: 1.75, maxWidth: 560, margin: 0 }}>{t("about.p1")}</p>
+              <p style={{ ...anim(inView, 0.55), color: "var(--muted-fg)", fontSize: "clamp(0.9rem, 1.3vw, 1.05rem)", lineHeight: 1.75, maxWidth: 560, margin: 0 }}>{t("about.p2")}</p>
+              <div style={{ ...anim(inView, 0.65), borderLeft: "2px solid var(--copper)", paddingLeft: 24, paddingTop: 16, paddingBottom: 16, marginTop: 8, background: "rgba(237,232,224,0.4)" }}>
+                <p className="annotation" style={{ color: "var(--copper)", marginBottom: 8 }}>{t("about.philosophy")}</p>
+                <p style={{ color: "var(--fg)", fontSize: "0.9rem", lineHeight: 1.7, fontStyle: "italic", margin: 0 }}>{t("about.philosophy.desc")}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // ─── SERVICES ───────────────────────────────────────────────────────────────
+  const SERVICES = [
+    { nameKey: "services.foundation.name", svcKey: "services.foundation.service", descKey: "services.foundation.desc", img: "services-foundation_a7eb009b.png", large: true },
+    { nameKey: "services.alignment.name", svcKey: "services.alignment.service", descKey: "services.alignment.desc", img: "services-acupuncture_9e1f3f63.png" },
+    { nameKey: "services.facade.name", svcKey: "services.facade.service", descKey: "services.facade.desc", img: "services-facade_3faee4f3.png" },
+    { nameKey: "services.restoration.name", svcKey: "services.restoration.service", descKey: "services.restoration.desc", img: "services-massage_9a3da22a.png" },
+    { nameKey: "services.heritage.name", svcKey: "services.heritage.service", descKey: "services.heritage.desc", img: "services-heritage_c71faac3.png" },
+    { nameKey: "services.fluiddynamics.name", svcKey: "services.fluiddynamics.service", descKey: "services.fluiddynamics.desc", img: "services-hydrotherapy_46e3dace.png" },
+    { nameKey: "services.warranty.name", svcKey: "services.warranty.service", descKey: "services.warranty.desc", img: "services-warranty_f8961518.png" },
+  ];
+
+  function ServiceCard({ svc, t, inView, delay }) {
+    const [hovered, setHovered] = useState(false);
+    return (
+      <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+        style={{
+          ...anim(inView, delay), position: "relative", overflow: "hidden",
+          background: "var(--card)", border: `1px solid ${hovered ? "rgba(184,134,11,0.35)" : "rgba(0,0,0,0.07)"}`,
+          minHeight: svc.large ? 420 : 220, transition: "border-color 0.4s",
+          gridColumn: svc.large ? "span 2" : "span 1", gridRow: svc.large ? "span 2" : "span 1",
+        }}>
+        <div style={{ position: "absolute", inset: 0 }}>
+          <img src={`${BASE}${svc.img}`} alt={svc.nameKey} style={{ width: "100%", height: "100%", objectFit: "cover", opacity: hovered ? 0.85 : 0.72, filter: "saturate(2.2) contrast(1.1) brightness(1.05)", transition: "opacity 0.6s, transform 0.7s", transform: hovered ? "scale(1.05)" : "scale(1)" }} />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, var(--card) 20%, rgba(249,247,242,0.25) 55%, rgba(249,247,242,0.0) 100%)" }} />
+        </div>
+        <div style={{ position: "relative", zIndex: 1, padding: 28, height: "100%", display: "flex", flexDirection: "column", justifyContent: "flex-end", boxSizing: "border-box" }}>
+          <h3 style={{ fontFamily: "Satoshi, Inter, sans-serif", fontWeight: 700, fontSize: svc.large ? "1.5rem" : "1.1rem", color: hovered ? "var(--copper)" : "var(--fg)", margin: "0 0 4px", transition: "color 0.3s" }}>{t(svc.nameKey)}</h3>
+          <p className="annotation" style={{ color: "var(--copper)", marginBottom: 10 }}>{t(svc.svcKey)}</p>
+          <p style={{ color: "var(--muted-fg)", fontSize: 13, lineHeight: 1.65, margin: 0, maxWidth: 340 }}>{t(svc.descKey)}</p>
+        </div>
+      </div>
+    );
+  }
+
+  function ServicesSection({ t }) {
+    const [ref, inView] = useInView("-60px");
+    return (
+      <section id="services" ref={ref} style={{ padding: "96px 0", background: "oklch(0.955 0.007 75)", backgroundImage: "linear-gradient(rgba(45,45,45,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(45,45,45,0.025) 1px,transparent 1px)", backgroundSize: "40px 40px" }}>
+        <div className="container">
+          <SectionLabel t={t} tKey="services.label" inView={inView} />
+          <h2 style={{ ...anim(inView, 0.1), fontFamily: "Satoshi, Inter, sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 4vw, 3.5rem)", letterSpacing: "-0.03em", margin: "0 0 48px" }}>{t("services.title")}</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, gridAutoRows: "220px" }} className="services-grid">
+            {SERVICES.map((svc, i) => <ServiceCard key={svc.nameKey} svc={svc} t={t} inView={inView} delay={0.1 + i * 0.1} />)}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // ─── PROCESS ────────────────────────────────────────────────────────────────
+  const PROCESS_STEPS = [
+    { num: "01", titleKey: "process.step1.title", descKey: "process.step1.desc", icon: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" },
+    { num: "02", titleKey: "process.step2.title", descKey: "process.step2.desc", icon: "M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" },
+    { num: "03", titleKey: "process.step3.title", descKey: "process.step3.desc", icon: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" },
+    { num: "04", titleKey: "process.step4.title", descKey: "process.step4.desc", icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" },
+  ];
+
+  function ProcessSection({ t }) {
+    const [ref, inView] = useInView("-60px");
+    return (
+      <section ref={ref} style={{ padding: "96px 0", background: "var(--fg)", color: "var(--bg)", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "linear-gradient(rgba(255,255,255,0.1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.1) 1px,transparent 1px)", backgroundSize: "40px 40px" }} />
+        <div className="container" style={{ position: "relative", zIndex: 1 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20, ...anim(inView, 0, "x") }}>
+            <span style={{ width: 32, height: 1, background: "var(--copper)", display: "inline-block" }} />
+            <span style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.7rem", letterSpacing: "0.05em", textTransform: "uppercase", color: "rgba(249,247,242,0.5)" }}>{t("process.label")}</span>
+          </div>
+          <h2 style={{ ...anim(inView, 0.1), fontFamily: "Satoshi, Inter, sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 4vw, 3.5rem)", letterSpacing: "-0.03em", margin: "0 0 60px", color: "var(--bg)" }}>{t("process.title")}</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 32 }} className="process-grid">
+            {PROCESS_STEPS.map((step, i) => (
+              <div key={step.num} style={{ ...anim(inView, 0.2 + i * 0.12) }}>
+                <span style={{ fontFamily: "Satoshi, sans-serif", fontWeight: 900, fontSize: "clamp(3rem, 5vw, 4.5rem)", color: "rgba(249,247,242,0.07)", display: "block", lineHeight: 1 }}>{step.num}</span>
+                <div style={{ width: 64, height: 1, background: "rgba(249,247,242,0.2)", margin: "8px 0 18px" }} />
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--copper)" strokeWidth="1.5" style={{ marginBottom: 14 }}>
+                  <path d={step.icon} strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <h3 style={{ fontFamily: "Satoshi, Inter, sans-serif", fontWeight: 700, fontSize: "1.1rem", color: "var(--bg)", margin: "0 0 8px" }}>{t(step.titleKey)}</h3>
+                <p style={{ color: "rgba(249,247,242,0.55)", fontSize: 13, lineHeight: 1.7, margin: 0 }}>{t(step.descKey)}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // ─── TRANSIT LINE ───────────────────────────────────────────────────────────
+  const STATIONS = [
+    { titleKey: "journey.physio", descKey: "journey.physio.desc", status: "completed", year: "2024" },
+    { titleKey: "journey.ukreg", descKey: "journey.ukreg.desc", status: "completed", year: "2024" },
+    { titleKey: "journey.sport", descKey: "journey.sport.desc", status: "completed", year: "2024" },
+    { titleKey: "journey.acupuncture", descKey: "journey.acupuncture.desc", status: "completed", year: "2025" },
+    { titleKey: "journey.ausreg", descKey: "journey.ausreg.desc", status: "completed", year: "2025" },
+    { titleKey: "journey.hkreg", descKey: "journey.hkreg.desc", status: "completed", year: "2025" },
+    { titleKey: "journey.manipulation", descKey: "journey.manipulation.desc", status: "future", year: "2026" },
+    { titleKey: "journey.hydro", descKey: "journey.hydro.desc", status: "future", year: "2026" },
+    { titleKey: "journey.taping", descKey: "journey.taping.desc", status: "future", year: "2026" },
+  ];
+
+  function TransitLineSection({ t }) {
+    const [ref, inView] = useInView("-60px");
+    return (
+      <section id="journey" ref={ref} style={{ position: "relative", padding: "96px 0", backgroundImage: `url(${POSTURE_BG})`, backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "scroll" }}>
+        <div style={{ position: "absolute", inset: 0, background: "rgba(245,241,234,0.88)" }} />
+        <div style={{ position: "absolute", inset: 0, opacity: 0.03, backgroundImage: "linear-gradient(rgba(45,45,45,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(45,45,45,0.05) 1px,transparent 1px)", backgroundSize: "40px 40px" }} />
+        <div className="container" style={{ position: "relative", zIndex: 1 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20, ...anim(inView, 0, "x") }}>
+            <span style={{ width: 32, height: 1, background: "var(--copper)", display: "inline-block" }} />
+            <span className="annotation" style={{ color: "var(--copper)" }}>{t("journey.label")}</span>
+          </div>
+          <h2 style={{ ...anim(inView, 0.1), fontFamily: "Satoshi, Inter, sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 4vw, 3.5rem)", letterSpacing: "-0.03em", margin: "0 0 12px", color: "var(--fg)" }}>{t("journey.title")}</h2>
+          <p style={{ ...anim(inView, 0.2), color: "var(--muted-fg)", fontSize: "1rem", lineHeight: 1.7, maxWidth: 560, margin: "0 0 64px" }}>{t("journey.subtitle")}</p>
+          <div style={{ position: "relative", maxWidth: 680, margin: "0 auto" }}>
+            <div style={{ position: "absolute", left: 23, top: 0, bottom: 0, width: 2, background: "linear-gradient(to bottom, var(--teal) 66%, rgba(184,134,11,0.3) 66%)", transformOrigin: "top", transform: inView ? "scaleY(1)" : "scaleY(0)", transition: "transform 1.2s cubic-bezier(0.22,1,0.36,1) 0.3s" }} />
+            {STATIONS.map((s, i) => {
+              const isCompleted = s.status === "completed";
+              const isFuture = s.status === "future";
+              return (
+                <div key={s.titleKey} style={{ ...anim(inView, 0.3 + i * 0.15, "x"), display: "flex", alignItems: "flex-start", gap: 28, padding: "28px 0" }}>
+                  <div style={{ position: "relative", zIndex: 1, flexShrink: 0, width: 48, display: "flex", alignItems: "center", justifyContent: "center", paddingTop: 4 }}>
+                    <div style={{ width: 14, height: 14, borderRadius: "50%", background: isCompleted ? "var(--teal)" : "rgba(100,90,80,0.25)", boxShadow: isCompleted ? "0 0 0 4px rgba(45,212,191,0.12)" : "none" }} />
+                  </div>
+                  <div style={{ flex: 1, opacity: isFuture ? 0.4 : 1, paddingBottom: 8 }}>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginBottom: 6 }}>
+                      <h3 style={{ fontFamily: "Satoshi, Inter, sans-serif", fontWeight: isCompleted ? 700 : 500, fontSize: "clamp(1.1rem, 2vw, 1.4rem)", color: isCompleted ? "var(--fg)" : "var(--muted-fg)", margin: 0 }}>{t(s.titleKey)}</h3>
+                      <span className="annotation">{s.year}</span>
+                    </div>
+                    <p style={{ color: "var(--muted-fg)", fontSize: 14, lineHeight: 1.65, margin: "0 0 8px", maxWidth: 420 }}>{t(s.descKey)}</p>
+                    {isCompleted && <div style={{ display: "flex", alignItems: "center", gap: 8 }}><span style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--teal)", display: "inline-block" }} /><span className="annotation" style={{ color: "var(--teal)" }}>COMPLETED</span></div>}
+                    {isFuture && <div style={{ display: "flex", alignItems: "center", gap: 8 }}><span style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--muted-fg)", display: "inline-block", opacity: 0.3 }} /><span className="annotation" style={{ color: "var(--muted-fg)" }}>UPCOMING</span></div>}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // ─── TESTIMONIALS ────────────────────────────────────────────────────────────
+  const TESTIMONIALS = [
+    { name: { en: "Sarah L.", zh: "Sarah L." }, role: { en: "Marathon Runner", zh: "馬拉松跑手" }, text: { en: "Alvin didn't just fix my knee — he gave me a complete structural overhaul. The home exercise blueprint he designed kept me strong long after our sessions ended. I ran my personal best 3 months later.", zh: "Alvin 不僅修復了我的膝蓋 — 他給了我一次完整的結構翻新。他設計的居家運動藍圖讓我在療程結束後依然保持強壯。三個月後我跑出了個人最佳成績。" } },
+    { name: { en: "David C.", zh: "David C." }, role: { en: "Office Professional", zh: "辦公室專業人士" }, text: { en: "Years of desk work had destroyed my posture. Alvin's approach was methodical and precise — like an architect surveying a building. His acupuncture sessions were a game-changer for my chronic neck pain.", zh: "多年的辦公桌工作摧毀了我的姿勢。Alvin 的方法有條不紊且精確 — 就像建築師勘察建築物一樣。他的針灸療程徹底改變了我的慢性頸痛。" } },
+    { name: { en: "Mrs. Wong", zh: "黃太太" }, role: { en: "Retired Teacher, Age 72", zh: "退休教師，72歲" }, text: { en: "At my age, I thought pain was just part of life. Alvin showed me that my body's 'heritage' could be preserved and strengthened. His gentle approach made me feel safe and cared for throughout.", zh: "在我這個年紀，我以為疼痛只是生活的一部分。Alvin 向我展示了我身體的「遺產」可以被保存和加強。他溫柔的方法讓我在整個過程中感到安全和被關懷。" } },
+  ];
+
+  function TestimonialsSection({ t, lang }) {
+    const [ref, inView] = useInView("-60px");
+    const [feedbackState, setFeedbackState] = useState({ name: "", email: "", text: "", submitted: false });
+    return (
+      <section id="testimonials" ref={ref} style={{ position: "relative", padding: "96px 0", background: "var(--fg)" }}>
+        <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "linear-gradient(rgba(255,255,255,0.1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.1) 1px,transparent 1px)", backgroundSize: "40px 40px" }} />
+        <div className="container" style={{ position: "relative", zIndex: 1 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20, ...anim(inView, 0, "x") }}>
+            <span style={{ width: 32, height: 1, background: "var(--copper)", display: "inline-block" }} />
+            <span style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.68rem", letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(249,247,242,0.5)" }}>{t("testimonials.label")}</span>
+          </div>
+          <h2 style={{ ...anim(inView, 0.1), fontFamily: "Satoshi, Inter, sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 4vw, 3.5rem)", letterSpacing: "-0.03em", margin: "0 0 48px", color: "var(--bg)" }}>{t("testimonials.title")}</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }} className="testi-grid">
+            {TESTIMONIALS.map((item, i) => {
+              const [hov, setHov] = useState(false);
+              return (
+                <div key={i} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+                  style={{ ...anim(inView, 0.2 + i * 0.12), position: "relative", background: "rgba(255,255,255,0.05)", border: `1px solid ${hov ? "rgba(184,134,11,0.4)" : "rgba(255,255,255,0.1)"}`, padding: 32, transition: "border-color 0.4s" }}>
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="rgba(184,134,11,0.25)" style={{ marginBottom: 20 }}>
+                    <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+                    <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
+                  </svg>
+                  <p style={{ color: "rgba(249,247,242,0.8)", fontSize: 14, lineHeight: 1.75, marginBottom: 28 }}>{item.text[lang]}</p>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.1)" }}>
+                    <div style={{ width: 38, height: 38, borderRadius: "50%", background: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Satoshi, sans-serif", fontWeight: 700, fontSize: 14, color: "var(--muted-fg)" }}>{item.name[lang].charAt(0)}</div>
+                    <div>
+                      <p style={{ fontFamily: "Satoshi, sans-serif", fontWeight: 700, fontSize: 13, margin: 0, color: "var(--bg)" }}>{item.name[lang]}</p>
+                      <p className="annotation" style={{ marginTop: 2, color: "rgba(249,247,242,0.45)" }}>{item.role[lang]}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          {/* Feedback form */}
+          <div style={{ ...anim(inView, 0.55), marginTop: 64, maxWidth: 640, margin: "64px auto 0", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", padding: "48px" }}>
+            <h3 style={{ fontFamily: "Satoshi, sans-serif", fontWeight: 700, fontSize: "1.4rem", margin: "0 0 28px", color: "var(--bg)" }}>{t("feedback.title")}</h3>
+            {feedbackState.submitted ? (
+              <div style={{ textAlign: "center", padding: "32px 0" }}>
+                <div style={{ width: 48, height: 48, borderRadius: "50%", background: "rgba(45,212,191,0.12)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" strokeWidth="2"><polyline points="20 6 9 17 4 12" /></svg>
+                </div>
+                <p style={{ fontFamily: "Satoshi, sans-serif", fontWeight: 600, color: "var(--bg)" }}>{t("feedback.thanks")}</p>
+              </div>
+            ) : (
+              <form onSubmit={e => { e.preventDefault(); setFeedbackState(s => ({ ...s, submitted: true })); }} style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                {[[t("feedback.name"), "name", "text", t("feedback.name.ph")], [t("feedback.email"), "email", "email", t("feedback.email.ph")]].map(([label, field, type, ph]) => (
+                  <div key={field}>
+                    <label className="annotation" style={{ display: "block", marginBottom: 8, color: "rgba(249,247,242,0.5)" }}>{label}</label>
+                    <input type={type} required value={feedbackState[field]} onChange={e => setFeedbackState(s => ({ ...s, [field]: e.target.value }))}
+                      placeholder={ph} style={{ width: "100%", background: "transparent", border: "none", borderBottom: "1px solid rgba(255,255,255,0.15)", padding: "10px 0", outline: "none", fontSize: 15, color: "var(--bg)", boxSizing: "border-box", fontFamily: "Inter, sans-serif" }}
+                      onFocus={e => e.target.style.borderColor = "var(--copper)"} onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.15)"} />
+                  </div>
+                ))}
+                <div>
+                  <label className="annotation" style={{ display: "block", marginBottom: 8, color: "rgba(249,247,242,0.5)" }}>{t("feedback.text")}</label>
+                  <textarea required rows={4} value={feedbackState.text} onChange={e => setFeedbackState(s => ({ ...s, text: e.target.value }))}
+                    placeholder={t("feedback.text.ph")} style={{ width: "100%", background: "transparent", border: "1px solid rgba(255,255,255,0.15)", padding: "12px 14px", outline: "none", fontSize: 14, color: "var(--bg)", resize: "none", boxSizing: "border-box", fontFamily: "Inter, sans-serif" }}
+                    onFocus={e => e.target.style.borderColor = "var(--copper)"} onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.15)"} />
+                </div>
+                <SubmitBtn>{t("feedback.submit")}</SubmitBtn>
+              </form>
+            )}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // ─── BOOKING ─────────────────────────────────────────────────────────────────
+  function SubmitBtn({ children, onClick }) {
+    const [hov, setHov] = useState(false);
+    return (
+      <button type="submit" onClick={onClick} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+        style={{ width: "100%", background: hov ? "var(--copper)" : "var(--fg)", color: "var(--bg)", border: "none", padding: "16px", fontFamily: "Satoshi, sans-serif", fontWeight: 700, fontSize: 13, letterSpacing: "0.1em", textTransform: "uppercase", cursor: "pointer", transition: "background 0.4s", marginTop: 8 }}>
+        {children}
+      </button>
+    );
+  }
+
+  const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  const TIME_SLOTS = ["09:00","10:00","11:00","12:00","14:00","15:00","16:00","17:00","18:00"];
+
+  function MiniCalendar({ selected, onSelect }) {
+    const today = new Date(); today.setHours(0,0,0,0);
+    const [view, setView] = useState({ year: today.getFullYear(), month: today.getMonth() });
+    const firstDay = new Date(view.year, view.month, 1).getDay();
+    const daysInMonth = new Date(view.year, view.month + 1, 0).getDate();
+    const cells = [];
+    for (let i = 0; i < firstDay; i++) cells.push(null);
+    for (let d = 1; d <= daysInMonth; d++) cells.push(d);
+    return (
+      <div style={{ background: "var(--card)", border: "1px solid rgba(0,0,0,0.07)", padding: 20 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+          <button onClick={() => setView(v => v.month === 0 ? { year: v.year - 1, month: 11 } : { ...v, month: v.month - 1 })} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--fg)", fontSize: 18, padding: "4px 8px" }}>‹</button>
+          <span style={{ fontFamily: "Satoshi, sans-serif", fontWeight: 700, fontSize: 14 }}>{MONTHS[view.month]} {view.year}</span>
+          <button onClick={() => setView(v => v.month === 11 ? { year: v.year + 1, month: 0 } : { ...v, month: v.month + 1 })} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--fg)", fontSize: 18, padding: "4px 8px" }}>›</button>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 2, marginBottom: 4 }}>
+          {DAYS.map(d => <span key={d} className="annotation" style={{ textAlign: "center", padding: "4px 0" }}>{d}</span>)}
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 2 }}>
+          {cells.map((d, i) => {
+            if (!d) return <span key={`e-${i}`} />;
+            const date = new Date(view.year, view.month, d);
+            const isPast = date < today;
+            const isSunday = date.getDay() === 0;
+            const disabled = isPast || isSunday;
+            const isSelected = selected && selected.toDateString() === date.toDateString();
+            const isToday = date.toDateString() === today.toDateString();
+            return (
+              <button key={d} disabled={disabled} onClick={() => onSelect(date)}
+                style={{ padding: "7px 4px", border: isSelected ? "1px solid var(--copper)" : isToday ? "1px solid rgba(184,134,11,0.3)" : "1px solid transparent", background: isSelected ? "var(--copper)" : "transparent", color: isSelected ? "var(--bg)" : disabled ? "rgba(45,40,35,0.2)" : "var(--fg)", cursor: disabled ? "not-allowed" : "pointer", borderRadius: 2, fontSize: 13, fontFamily: "Inter, sans-serif", fontWeight: isToday ? 600 : 400, transition: "all 0.2s" }}>
+                {d}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  function BookingSection({ t }) {
+    const [ref, inView] = useInView("-60px");
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedTime, setSelectedTime] = useState("");
+    const [form, setForm] = useState({ name: "", email: "", phone: "", concern: "" });
+    const [submitted, setSubmitted] = useState(false);
+    const [error, setError] = useState("");
+    const [waUrl, setWaUrl] = useState("");
+
+    const handleSubmit = e => {
+      e.preventDefault();
+      if (!selectedDate || !selectedTime) { setError("Please select a date and time."); return; }
+      setError("");
+      const dateStr = selectedDate.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+      const lines = [
+        "Hi Alvin, I'd like to book a physiotherapy session.",
+        "",
+        `Name: ${form.name}`,
+        `Phone: ${form.phone}`,
+        `Email: ${form.email}`,
+        `Preferred slot: ${dateStr} at ${selectedTime}`,
+      ];
+      if (form.concern.trim()) lines.push(`Concern: ${form.concern.trim()}`);
+      const url = `https://wa.me/85268724819?text=${encodeURIComponent(lines.join("\n"))}`;
+      setWaUrl(url);
+      window.open(url, "_blank", "noopener");
+      setSubmitted(true);
+    };
+
+    return (
+      <section id="booking" ref={ref} style={{ position: "relative", padding: "96px 0", backgroundImage: `url(${POSTURE_BG})`, backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "scroll" }}>
+        <div style={{ position: "absolute", inset: 0, background: "rgba(249,247,242,0.90)" }} />
+        <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "linear-gradient(rgba(0,0,0,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.06) 1px,transparent 1px)", backgroundSize: "60px 60px" }} />
+        <div className="container" style={{ position: "relative", zIndex: 1 }}>
+          <SectionLabel t={t} tKey="booking.label" inView={inView} />
+          <h2 style={{ ...anim(inView, 0.1), fontFamily: "Satoshi, Inter, sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 4vw, 3.5rem)", letterSpacing: "-0.03em", margin: "0 0 12px", whiteSpace: "pre-line" }}>{t("booking.title")}</h2>
+          <p style={{ ...anim(inView, 0.2), color: "var(--muted-fg)", fontSize: "1rem", lineHeight: 1.7, maxWidth: 560, margin: "0 0 48px" }}>{t("booking.subtitle")}</p>
+          {submitted ? (
+            <div style={{ maxWidth: 480, textAlign: "center", padding: "64px 0" }}>
+              <div style={{ width: 64, height: 64, borderRadius: "50%", background: "rgba(45,212,191,0.12)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px" }}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" strokeWidth="2"><polyline points="20 6 9 17 4 12" /></svg>
+              </div>
+              <h3 style={{ fontFamily: "Satoshi, sans-serif", fontWeight: 700, fontSize: "1.5rem", margin: "0 0 12px" }}>{t("booking.confirmation")}</h3>
+              <p style={{ color: "var(--muted-fg)", fontSize: 14, margin: "0 0 8px" }}>{t("booking.confirmation.body")}</p>
+              <p style={{ fontFamily: "Satoshi, sans-serif", fontWeight: 700, fontSize: 14, margin: "0 0 24px" }}>
+                {selectedDate?.toLocaleDateString("en-GB", { weekday: "long", year: "numeric", month: "long", day: "numeric" })} at {selectedTime}
+              </p>
+              <p style={{ color: "var(--muted-fg)", fontSize: 13, margin: 0 }}>
+                {t("booking.confirmation.fallback")}{" "}
+                <a href={waUrl} target="_blank" rel="noopener noreferrer" style={{ color: "var(--copper)", fontWeight: 600 }}>{t("booking.confirmation.fallback.link")}</a>
+              </p>
+            </div>
+          ) : (
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 40 }} className="booking-grid">
+              <div style={{ ...anim(inView, 0.25), display: "flex", flexDirection: "column", gap: 20 }}>
+                <label className="annotation" style={{ display: "block", marginBottom: 8 }}>SELECT DATE</label>
+                <MiniCalendar selected={selectedDate} onSelect={setSelectedDate} />
+                {selectedDate && (
+                  <div>
+                    <label className="annotation" style={{ display: "block", marginBottom: 12 }}>SELECT TIME</label>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                      {TIME_SLOTS.map(slot => (
+                        <button key={slot} onClick={() => setSelectedTime(slot)}
+                          style={{ padding: "8px 16px", border: `1px solid ${selectedTime === slot ? "var(--copper)" : "var(--border)"}`, background: selectedTime === slot ? "var(--copper)" : "transparent", color: selectedTime === slot ? "var(--bg)" : "var(--fg)", cursor: "pointer", fontFamily: "JetBrains Mono, monospace", fontSize: 12, transition: "all 0.2s" }}>
+                          {slot}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+              <form onSubmit={handleSubmit} style={{ ...anim(inView, 0.35), display: "flex", flexDirection: "column", gap: 20 }}>
+                {[
+                  [t("booking.name"), "name", "text", "John Doe"],
+                  [t("booking.email"), "email", "email", "john@example.com"],
+                  [t("booking.phone"), "phone", "tel", "+852 9XXX XXXX"],
+                ].map(([label, field, type, ph]) => (
+                  <div key={field}>
+                    <label className="annotation" style={{ display: "block", marginBottom: 8 }}>{label}</label>
+                    <input type={type} required value={form[field]} onChange={e => setForm(f => ({ ...f, [field]: e.target.value }))}
+                      placeholder={ph} style={{ width: "100%", background: "transparent", border: "none", borderBottom: "1px solid var(--border)", padding: "10px 0", outline: "none", fontSize: 15, color: "var(--fg)", boxSizing: "border-box", fontFamily: "Inter, sans-serif" }}
+                      onFocus={e => e.target.style.borderColor = "var(--copper)"} onBlur={e => e.target.style.borderColor = "var(--border)"} />
+                  </div>
+                ))}
+                <div>
+                  <label className="annotation" style={{ display: "block", marginBottom: 8 }}>{t("booking.concern")}</label>
+                  <textarea rows={4} value={form.concern} onChange={e => setForm(f => ({ ...f, concern: e.target.value }))}
+                    placeholder={t("booking.concern.placeholder")}
+                    style={{ width: "100%", background: "transparent", border: "1px solid var(--border)", padding: "12px 14px", outline: "none", fontSize: 14, color: "var(--fg)", resize: "none", boxSizing: "border-box", fontFamily: "Inter, sans-serif" }}
+                    onFocus={e => e.target.style.borderColor = "var(--copper)"} onBlur={e => e.target.style.borderColor = "var(--border)"} />
+                </div>
+                {selectedDate && selectedTime && (
+                  <div style={{ background: "rgba(237,232,224,0.5)", padding: "14px 18px", borderLeft: "2px solid var(--copper)" }}>
+                    <span className="annotation" style={{ color: "var(--copper)", display: "block", marginBottom: 4 }}>SELECTED APPOINTMENT</span>
+                    <span style={{ fontFamily: "Satoshi, sans-serif", fontWeight: 700, fontSize: 14 }}>
+                      {selectedDate.toLocaleDateString("en-GB", { weekday: "long", month: "long", day: "numeric", year: "numeric" })} at {selectedTime}
+                    </span>
+                  </div>
+                )}
+                {error && <p style={{ color: "#c0392b", fontSize: 13, margin: 0 }}>{error}</p>}
+                <SubmitBtn>{t("booking.submit")}</SubmitBtn>
+              </form>
+            </div>
+          )}
+        </div>
+      </section>
+    );
+  }
+
+  // ─── CONTACT + FOOTER ────────────────────────────────────────────────────────
+  const WhatsAppIcon = ({ color }) => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill={color || "currentColor"}>
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  );
+  const InstagramIcon = ({ color }) => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color || "currentColor"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+      <circle cx="12" cy="12" r="4"/>
+      <circle cx="17.5" cy="6.5" r="0.5" fill={color || "currentColor"} stroke="none"/>
+    </svg>
+  );
+  const EmailIcon = ({ color }) => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color || "currentColor"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+    </svg>
+  );
+
+  const CONTACT_METHODS = [
+    { IconComp: WhatsAppIcon, labelKey: "contact.whatsapp", value: "+852 6872 4819", href: "https://wa.me/85268724819?text=Hi%20Alvin%2C%20I'd%20like%20to%20start%20my%20structural%20recovery%20project!", hoverColor: "#22c55e" },
+    { IconComp: InstagramIcon, labelKey: "contact.instagram", value: "@alvin.wong_pt", href: "https://instagram.com/alvin.wong_pt", hoverColor: "#e1306c" },
+    { IconComp: EmailIcon, labelKey: "contact.email", value: "wongalvin.pt@gmail.com", href: "mailto:wongalvin.pt@gmail.com", hoverColor: "var(--copper)" },
+  ];
+
+  function ContactFooter({ t }) {
+    const [ref, inView] = useInView("-60px");
+    return (
+      <>
+        <section id="contact" ref={ref} style={{ position: "relative", padding: "96px 0", backgroundImage: `url(${POSTURE_BG})`, backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "scroll" }}>
+          <div style={{ position: "absolute", inset: 0, background: "rgba(237,232,224,0.88)" }} />
+          <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "linear-gradient(rgba(0,0,0,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.06) 1px,transparent 1px)", backgroundSize: "60px 60px" }} />
+          <div className="container" style={{ position: "relative", zIndex: 1 }}>
+            <SectionLabel t={t} tKey="contact.label" inView={inView} />
+            <h2 style={{ ...anim(inView, 0.1), fontFamily: "Satoshi, Inter, sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 4vw, 3.5rem)", letterSpacing: "-0.03em", margin: "0 0 48px" }}>{t("contact.title")}</h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 560 }}>
+              {CONTACT_METHODS.map((m, i) => {
+                const [hov, setHov] = useState(false);
+                return (
+                  <a key={m.labelKey} href={m.href} target="_blank" rel="noopener noreferrer"
+                    onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+                    style={{ ...anim(inView, 0.2 + i * 0.1), display: "flex", alignItems: "center", gap: 20, padding: "20px 24px", background: "var(--card)", border: `1px solid ${hov ? "rgba(184,134,11,0.28)" : "rgba(0,0,0,0.07)"}`, textDecoration: "none", color: hov ? m.hoverColor : "var(--fg)", transition: "all 0.4s" }}>
+                    <div style={{ width: 44, height: 44, border: `1px solid ${hov ? "rgba(184,134,11,0.35)" : "var(--border)"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "all 0.4s" }}>
+                      <m.IconComp color={hov ? m.hoverColor : "var(--fg)"} />
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <span className="annotation" style={{ display: "block", marginBottom: 4 }}>{t(m.labelKey)}</span>
+                      <span style={{ fontFamily: "Satoshi, sans-serif", fontWeight: 700, fontSize: 15 }}>{m.value}</span>
+                    </div>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted-fg)" strokeWidth="2">
+                      <line x1="7" y1="17" x2="17" y2="7" /><polyline points="7 7 17 7 17 17" />
+                    </svg>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+        <footer style={{ padding: "40px 0", borderTop: "1px solid var(--border)" }}>
+          <div className="container" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+              <span style={{ fontFamily: "Satoshi, sans-serif", fontWeight: 700, fontSize: 13 }}>{t("footer.copyright")}</span>
+              <span className="annotation">{t("footer.tagline")}</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+              {CONTACT_METHODS.map(m => (
+                <a key={m.href} href={m.href} target="_blank" rel="noopener noreferrer"
+                  style={{ color: "var(--muted-fg)", transition: "color 0.3s" }}
+                  onMouseEnter={e => e.currentTarget.style.color = "var(--copper)"} onMouseLeave={e => e.currentTarget.style.color = "var(--muted-fg)"}>
+                  <m.IconComp color="currentColor" />
+                </a>
+              ))}
+            </div>
+            <span className="annotation">© {new Date().getFullYear()} All Rights Reserved</span>
+          </div>
+        </footer>
+      </>
+    );
+  }
+
+  // ─── TWEAKS ──────────────────────────────────────────────────────────────────
+  const THEME_PRESETS = {
+    Blueprint: { "--bg": "oklch(0.975 0.005 85)", "--fg": "oklch(0.20 0.010 65)", "--card": "oklch(0.985 0.004 85)", "--border": "oklch(0.88 0.010 75)", "--muted-fg": "oklch(0.50 0.015 65)", "--warm-stone": "oklch(0.93 0.008 75)" },
+    Forge:     { "--bg": "oklch(0.14 0.008 50)",  "--fg": "oklch(0.94 0.005 80)", "--card": "oklch(0.18 0.007 50)", "--border": "oklch(0.28 0.008 55)", "--muted-fg": "oklch(0.60 0.010 70)", "--warm-stone": "oklch(0.22 0.006 55)" },
+    Atelier:   { "--bg": "oklch(0.97 0.018 78)",  "--fg": "oklch(0.22 0.018 65)", "--card": "oklch(0.975 0.015 78)", "--border": "oklch(0.87 0.018 72)", "--muted-fg": "oklch(0.52 0.020 68)", "--warm-stone": "oklch(0.92 0.020 75)" },
+  };
+  const ACCENT_PRESETS = {
+    Copper: { "--copper": "oklch(0.65 0.12 65)",  "--teal": "oklch(0.70 0.12 175)" },
+    Teal:   { "--copper": "oklch(0.62 0.15 175)", "--teal": "oklch(0.65 0.12 65)" },
+    Slate:  { "--copper": "oklch(0.55 0.10 250)", "--teal": "oklch(0.70 0.12 175)" },
+    Brass:  { "--copper": "oklch(0.72 0.16 88)",  "--teal": "oklch(0.70 0.12 175)" },
+  };
+  const TYPE_PRESETS = {
+    Precise:    { "--heading-scale": "1",    "--heading-track": "-0.03em", "--body-lh": "1.7",  "--section-pad": "96px" },
+    Editorial:  { "--heading-scale": "0.92", "--heading-track": "0.01em",  "--body-lh": "1.85", "--section-pad": "112px" },
+    Commanding: { "--heading-scale": "1.14", "--heading-track": "-0.045em","--body-lh": "1.65", "--section-pad": "80px" },
+  };
+  function applyVars(vars) { Object.entries(vars).forEach(([k, v]) => document.documentElement.style.setProperty(k, v)); }
+
+  function AlvinTweaks() {
+    const [tweaks, setTweak] = useTweaks(/*EDITMODE-BEGIN*/{ "theme": "Blueprint", "accent": "Copper", "type": "Precise" }/*EDITMODE-END*/);
+    useEffect(() => {
+      applyVars(THEME_PRESETS[tweaks.theme] || THEME_PRESETS.Blueprint);
+      applyVars(ACCENT_PRESETS[tweaks.accent] || ACCENT_PRESETS.Copper);
+      applyVars(TYPE_PRESETS[tweaks.type] || TYPE_PRESETS.Precise);
+    }, [tweaks.theme, tweaks.accent, tweaks.type]);
+    return (
+      <TweaksPanel title="Alvin Physio">
+        <TweakSection label="Atmosphere">
+          <TweakRadio label="Theme" value={tweaks.theme} options={["Blueprint", "Forge", "Atelier"]} onChange={v => setTweak("theme", v)} />
+        </TweakSection>
+        <TweakSection label="Accent Colour">
+          <TweakRadio label="Palette" value={tweaks.accent} options={["Copper", "Teal", "Slate", "Brass"]} onChange={v => setTweak("accent", v)} />
+        </TweakSection>
+        <TweakSection label="Type Rhythm">
+          <TweakRadio label="Feel" value={tweaks.type} options={["Precise", "Editorial", "Commanding"]} onChange={v => setTweak("type", v)} />
+        </TweakSection>
+      </TweaksPanel>
+    );
+  }
+
+  // ─── LANGUAGE CONTEXT ────────────────────────────────────────────────────────
+  const LangCtx = createContext(null);
+
+  function LangProvider({ children }) {
+    const [lang, setLangState] = useState(() => {
+      const saved = localStorage.getItem("alvin-lang");
+      if (saved === "en" || saved === "zh") return saved;
+      return navigator.language?.startsWith("zh") ? "zh" : "en";
+    });
+    const setLang = l => { setLangState(l); localStorage.setItem("alvin-lang", l); document.documentElement.lang = l === "zh" ? "zh-Hant" : "en-GB"; };
+    const t = key => window.TRANSLATIONS[key]?.[lang] || key;
+    return <LangCtx.Provider value={{ lang, setLang, t }}>{children}</LangCtx.Provider>;
+  }
+
+  // ─── APP ─────────────────────────────────────────────────────────────────────
+  function App() {
+    const { lang, setLang, t } = useContext(LangCtx);
+    return (
+      <>
+        <Navigation lang={lang} setLang={setLang} t={t} />
+        <main>
+          <HeroSection t={t} />
+          <AboutSection t={t} />
+          <ServicesSection t={t} />
+          <ProcessSection t={t} />
+          <TransitLineSection t={t} />
+          <TestimonialsSection t={t} lang={lang} />
+          <BookingSection t={t} />
+          <ContactFooter t={t} />
+        </main>
+        <AlvinTweaks />
+      </>
+    );
+  }
+
+  const root = ReactDOM.createRoot(document.getElementById("root"));
+  root.render(<LangProvider><App /></LangProvider>);
+  </script>
+</body>
+</html>
